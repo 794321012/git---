@@ -1,0 +1,9 @@
+/dist
+/node_modules
+
+ 总结:
+ a/other : 从 gitignore 找到a 文件夹下的 other 文件夹
+ /other : 匹配文件夹
+ /other/ :匹配文件夹
+ *.jpge :匹配掉所有的 jpge图片 
+ /**/*.jpge : 所有目录深度的 jpge 图片
