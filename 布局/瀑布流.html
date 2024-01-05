@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+<style>
+    body,
+    html {
+        padding: 0;
+        margin: 0;
+    }
+
+    .container {
+        column-count: 4;
+        column-gap: 10px;
+        counter-reset: count;
+        width: 960px;
+        margin: 0 auto;
+    }
+
+    .container div {
+        position: relative;
+        margin-bottom: 10px;
+    }
+
+    .container div img {
+        width: 100%;
+    }
+
+    /* .box1 {
+        width: 100px;
+        height: 110px;
+        background-color: aqua;
+
+    }
+
+    .box2 {
+
+        width: 100px;
+        height: 170px;
+        background-color: skyblue;
+    }
+
+    .box3 {
+
+        width: 100px;
+        height: 190px;
+        background-color: black;
+    }
+
+    .box4 {
+
+        width: 100px;
+        height: 110px;
+        background-color: pink;
+    }
+
+    .box4 {
+
+        width: 100px;
+        height: 120px;
+        background-color: blue;
+    }
+
+    .box5 {
+
+        width: 100px;
+        height: 130px;
+        background-color: blueviolet;
+    }
+
+    .box6 {
+
+        width: 100px;
+        height: 140px;
+        background-color: red;
+    }
+
+    .box7 {
+
+        width: 100px;
+        height: 180px;
+        background-color: rebeccapurple;
+    }
+
+    .box8 {
+
+        width: 100px;
+        height: 145px;
+        background-color: olive;
+    }
+
+    .box9 {
+
+        width: 100px;
+        height: 120px;
+        background-color: orange;
+    }
+
+    .box10 {
+
+        width: 100px;
+        height: 160px;
+        background-color: olivedrab;
+    } */
+</style>
+
+<body>
+    <div class="container">
+        <div class="box1">
+            <img src="./tupian/1.jpeg" alt="">
+        </div>
+        <div class="box2">
+            <img src="./tupian/2.jpeg" alt="">
+        </div>
+        <div class="box3">
+            <img src="./tupian/3.jpeg" alt="">
+        </div>
+        <div class="box4">
+            <img src="./tupian/5.jpeg" alt="">
+        </div>
+        <div class="box5">
+            <img src="./tupian/6.jpeg" alt="">
+        </div>
+        <div class="box6">
+            <img src="./tupian/7.jpeg" alt="" srcset="">
+        </div>
+        <div class="box7">
+            <img src="./tupian/8.jpeg" alt="">
+        </div>
+        <div class="box8">
+            <img src="./tupian/8.jpeg" alt="">
+        </div>
+        <div class="box9">
+            <img src="./tupian/9.jpeg" alt="">
+        </div>
+        <div class="box10">
+            <img src="./tupian/10.jpeg" alt="">
+        </div>
+    </div>
+
+</body>
+<script>
+
+    class Waterfall {
+        constructor(options) {
+            this.$el = null             // 父容器
+            this.count = 4              // 列数
+            this.gap = 10               // 间距
+            Object.assign(this, options)
+            this.width = 0              // 列的宽度
+            this.items = []             // 子元素集合
+            this.H = []                 // 存储每列的高度方便计算
+            this.flag = null            // 虚拟节点集合
+            this.init()
+        }
+        init () {
+            this.items = Array.from(this.$el.children)
+            this.reset()
+            this.render()
+        }
+        reset () {
+            this.flag = document.createDocumentFragment()
+            this.width = this.$el.clientWidth / this.count
+            this.H = new Array(this.count).fill(0)
+            this.$el.innerHTML = ""
+        }
+
+        render () {
+            const { width, items, flag, H, gap } = this
+            items.forEach(item => {
+                item.style.width = width + "px"
+                item.style.position = "absolute"
+                let img = item.querySelector("img")
+                if (img.complete) {
+                    let tag = H.indexOf(Math.min(...H))
+                    item.style.left = tag * (width + gap) + "px"
+                    item.style.top = H[tag] + "px"
+                    H[tag] += img.height * width / img.width + gap
+                    flag.appendChild(item)
+                }
+                else {
+                    img.addEventListener("load", () => {
+                        let tag = H.indexOf(Math.min(...H))
+                        item.style.left = tag * (width + gap) + "px"
+                        item.style.top = H[tag] + "px"
+                        H[tag] += img.height * width / img.width + gap
+                        flag.appendChild(item)
+                        this.$el.append(flag)
+                    })
+                }
+            })
+            this.$el.append(flag)
+        }
+    }
+
+    window.onload
+        = new Waterfall({
+            $el: document.querySelector(".container"),
+            count: 4,
+            gap: 10
+        })
+
+    // window.addEventListener('onload', water)
+</script>
+
+</html>
