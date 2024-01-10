@@ -1,21 +1,24 @@
+/**
+ * @param {number[]} heights
+ * @return {number[]}
+ */
 var canSeePersonsCount = function (heights) {
-  let ret = []
-  let idx = 0
-  let v = 0
-  for (let i = 0; i < heights.length; i++) {
-    if (i === heights.legnth - 1) {
-      ret.push(0)
-      return
-    } else {
-      idx++
+  const stack = []
+  const n = heights.length
+  const ans = new Array(n).fill(0)
+  for (let i = n - 1; i >= 0; i--) {
+    while (stack.length) {
+      ans[i]++
+      // 因为是从 n-1 向前遍历的，heights 前面的一定看不到栈中的人，所以 pop 即可
+      if (heights[i] > heights[stack[stack.length - 1]]) {
+        stack.pop()
+      } else {
+        break
+      }
     }
-    if (i === heights.legnth - 1) {
-    }
-    while (heights[i + v + 1] > heights[i + v]) {
-      idx++
-    }
-    ret.push(idx)
-    idx = 0
+    stack.push(i)
   }
+  return ans
 }
-console.log(canSeePersonsCount([10, 6, 8, 5, 11, 9]))
+const ret = canSeePersonsCount([10, 6, 8, 5, 11, 9])
+console.log(ret)
